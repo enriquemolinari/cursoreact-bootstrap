@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
 
 export default class CrearPersona extends Component {
   constructor(props) {
@@ -71,55 +73,62 @@ export default class CrearPersona extends Component {
 
   render() {
     return (
-      <div>
-        <form>
-          <select name="localidad" onChange={this.handleChange}>
-            {this.state.localidades.map((l) => (
-              <option value={l.id}>{l.localidad}</option>
-            ))}
-          </select>
-          <label>
-            Nombre
-            <input
+      <>
+        <Form>
+          <Form.Group controlId="forLocalidades">
+            <Form.Label>Localidades</Form.Label>
+            <Form.Control
+              //isInvalid={true}
+              as="select"
+              onChange={this.handleChange}
+            >
+              {this.state.localidades.map((l) => (
+                <option value={l.id}>{l.localidad}</option>
+              ))}
+            </Form.Control>
+          </Form.Group>
+          <Form.Group controlId="forNombre">
+            <Form.Label>Nombre</Form.Label>
+            <Form.Control
               type="text"
               name="nombre"
               onChange={this.handleChange}
               value={this.state.form.nombre}
             />
-          </label>
-          <label>
-            Apellido
-            <input
+          </Form.Group>
+          <Form.Group controlId="forApellido">
+            <Form.Label>Apellido</Form.Label>
+            <Form.Control
               type="text"
               name="apellido"
               onChange={this.handleChange}
               value={this.state.form.apellido}
             />
-          </label>
-          <label>
-            Direccion
-            <input
+          </Form.Group>
+          <Form.Group controlId="forDireccion">
+            <Form.Label>Dirección</Form.Label>
+            <Form.Control
               type="text"
               name="direccion"
               onChange={this.handleChange}
               value={this.state.form.direccion}
             />
-          </label>
-          <label>
-            Telefono
-            <input
+          </Form.Group>
+          <Form.Group controlId="forTelefonos">
+            <Form.Label>Telefono</Form.Label>
+            <Form.Control
               type="text"
               name="telefono"
               onChange={this.handleChange}
               value={this.state.form.telefono}
             />
-          </label>
-          <button onClick={this.handleSubmit} type="submit">
+          </Form.Group>
+          <Button onClick={this.handleSubmit} type="submit">
             Enviar
-          </button>
-        </form>
+          </Button>
+        </Form>
         <p>{this.state.resultado}</p>
-      </div>
+      </>
     );
   }
 }

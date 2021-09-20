@@ -9,16 +9,20 @@ export default class Menu extends Component {
   render() {
     return (
       <Navbar bg="light" expand="lg">
-        <Navbar.Brand href="#home">Curso de React</Navbar.Brand>
+        <Navbar.Brand href="#">Curso de React</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link href="#link">Crear Persona</Nav.Link>
-            <Nav.Link href="#link">Personas</Nav.Link>
+            <Nav.Link href="#">Crear Persona</Nav.Link>
+            <Nav.Link href="#">Personas</Nav.Link>
           </Nav>
           <Form inline>
-            <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
+            <FormControl
+              type="text"
+              placeholder="Ingrese un apellido..."
+              className="mr-sm-2"
+            />
+            <Button variant="outline-success">Buscar</Button>
           </Form>
         </Navbar.Collapse>
       </Navbar>
