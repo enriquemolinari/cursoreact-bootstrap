@@ -83,7 +83,9 @@ export default class CrearPersona extends Component {
               onChange={this.handleChange}
             >
               {this.state.localidades.map((l) => (
-                <option value={l.id}>{l.localidad}</option>
+                <option key={l.id} value={l.id}>
+                  {l.localidad}
+                </option>
               ))}
             </Form.Control>
           </Form.Group>

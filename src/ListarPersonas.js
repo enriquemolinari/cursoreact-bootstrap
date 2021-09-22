@@ -1,20 +1,26 @@
 import React, { Component } from "react";
-import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 
 export default class ListarPersonas extends Component {
   constructor(props) {
     super(props);
-    this.limpiar = this.limpiar.bind(this);
-    this.listarPersonas = this.listarPersonas.bind(this);
 
     this.state = {
       personas: [],
     };
   }
 
-  listarPersonas() {
-    fetch("http://localhost:1234/personas")
+  componentDidMount() {
+    this.listarPersonas(this.props.searchedTxt);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.searchedTxt !== this.props.searchedTxt)
+      this.listarPersonas(this.props.searchedTxt);
+  }
+
+  listarPersonas(searchedTxt) {
+    fetch("http://localhost:1234/personas?apellido=" + searchedTxt)
       .then((resp) => resp.json())
       .then((json) => {
         this.setState({
@@ -22,12 +28,6 @@ export default class ListarPersonas extends Component {
           resultado: json.result,
         });
       });
-  }
-
-  limpiar() {
-    this.setState({
-      personas: [],
-    });
   }
 
   render() {
@@ -53,8 +53,6 @@ export default class ListarPersonas extends Component {
             ))}
           </tbody>
         </Table>
-        <Button onClick={this.listarPersonas}>Listar Personas</Button>&nbsp;
-        <Button onClick={this.limpiar}>Limpiar</Button>
       </>
     );
   }
