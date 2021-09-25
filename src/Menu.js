@@ -51,6 +51,12 @@ export default class Menu extends Component {
                   [e.target.name]: e.target.value,
                 })
               }
+              // disabling Enter key
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                }
+              }}
             />
             <Button variant="outline-success" onClick={this.handleSearch}>
               Buscar

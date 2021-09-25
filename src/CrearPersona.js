@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 
 export default class CrearPersona extends Component {
@@ -10,6 +11,7 @@ export default class CrearPersona extends Component {
     this.handleChange = this.handleChange.bind(this);
 
     this.state = {
+      errors: {},
       form: {
         nombre: "",
         apellido: "",
@@ -17,7 +19,8 @@ export default class CrearPersona extends Component {
         telefono: "",
         localidad: "",
       },
-      resultado: "",
+      resultado: false,
+      show: false,
       localidades: [],
     };
   }
@@ -51,12 +54,16 @@ export default class CrearPersona extends Component {
       .then((json) => {
         if (json.result === "error") {
           this.setState({
-            resultado: json.message,
+            errors: json.errors,
+            resultado: json.result,
+            show: false,
           });
           return;
         }
         this.setState({
-          resultado: "La persona fue creada con éxito!",
+          errors: {},
+          show: true,
+          resultado: json.result,
         });
       });
   }
@@ -74,14 +81,20 @@ export default class CrearPersona extends Component {
   render() {
     return (
       <>
+        {this.state.resultado === "success" && (
+          <Alert
+            variant="success"
+            dismissible={true}
+            show={this.state.show}
+            onClose={() => this.setState({ show: false })}
+          >
+            Persona creada con éxito !
+          </Alert>
+        )}
         <Form>
           <Form.Group controlId="forLocalidades">
             <Form.Label>Localidades</Form.Label>
-            <Form.Control
-              //isInvalid={true}
-              as="select"
-              onChange={this.handleChange}
-            >
+            <Form.Control as="select" onChange={this.handleChange}>
               {this.state.localidades.map((l) => (
                 <option key={l.id} value={l.id}>
                   {l.localidad}
@@ -94,42 +107,57 @@ export default class CrearPersona extends Component {
             <Form.Control
               type="text"
               name="nombre"
+              isInvalid={this.state.errors.nombre}
               onChange={this.handleChange}
               value={this.state.form.nombre}
             />
+            <Form.Control.Feedback type="invalid">
+              {this.state.errors.nombre}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="forApellido">
             <Form.Label>Apellido</Form.Label>
             <Form.Control
               type="text"
               name="apellido"
+              isInvalid={this.state.errors.apellido}
               onChange={this.handleChange}
               value={this.state.form.apellido}
             />
+            <Form.Control.Feedback type="invalid">
+              {this.state.errors.apellido}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="forDireccion">
             <Form.Label>Dirección</Form.Label>
             <Form.Control
               type="text"
               name="direccion"
+              isInvalid={this.state.errors.direccion}
               onChange={this.handleChange}
               value={this.state.form.direccion}
             />
+            <Form.Control.Feedback type="invalid">
+              {this.state.errors.direccion}
+            </Form.Control.Feedback>
           </Form.Group>
           <Form.Group controlId="forTelefonos">
             <Form.Label>Telefono</Form.Label>
             <Form.Control
               type="text"
               name="telefono"
+              isInvalid={this.state.errors.telefonos}
               onChange={this.handleChange}
               value={this.state.form.telefono}
             />
+            <Form.Control.Feedback type="invalid">
+              {this.state.errors.telefonos}
+            </Form.Control.Feedback>
           </Form.Group>
           <Button onClick={this.handleSubmit} type="submit">
             Enviar
           </Button>
         </Form>
-        <p>{this.state.resultado}</p>
       </>
     );
   }
